@@ -1,0 +1,8 @@
+
+.ant-card-body {}
+.custom-ant-card-body {
+    display: inline-block;
+     border: none ;
+     padding-top: 0px !important
+    
+}

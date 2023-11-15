@@ -1,0 +1,16 @@
+.code-box-demo {
+    text-align: center;
+  }
+ .ant-layout-header,
+ .ant-layout-footer {
+    color: #fff !important;
+   
+  }
+ .ant-layout-footer {
+    line-height: 1.5;
+  }
+ .ant-layout-sider {
+    color: #fff;
+    line-height: 120px;
+    background: #3ba0e9;
+  }
