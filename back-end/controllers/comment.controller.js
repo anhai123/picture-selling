@@ -9,8 +9,8 @@ class APIfeatures {
     this.query = query;
     this.queryString = queryString;
   }
-  sorting() {
-    this.query = this.query.sort("-createdAt");
+  sorting(criterion) {
+    this.query = this.query.sort(criterion);
     return this;
   }
   paginating() {
@@ -29,7 +29,7 @@ exports.getCommentsByProductId = async (req, res) => {
       Comments.find({ product_id: req.params.productId }),
       req.query
     )
-      .sorting()
+      .sorting("-createdAt")
       .paginating();
 
     const comments = await features.query;

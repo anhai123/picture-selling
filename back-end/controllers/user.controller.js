@@ -1,9 +1,29 @@
 const config = require("../config/auth.config");
 const db = require("../models");
+const Status = require("../models/status.model");
 const Users = db.user;
 const Payments = db.payment;
-var ObjectId = require("mongodb").ObjectId;
 const general = require("./generalController");
+var ObjectId = require("mongodb").ObjectId;
+
+class APIfeatures {
+  constructor(query, queryString) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+  sorting(criterion) {
+    this.query = this.query.sort(criterion);
+    return this;
+  }
+  paginating() {
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || 5;
+    const skip = (page - 1) * limit;
+    this.query = this.query.skip(skip).limit(limit);
+    return this;
+  }
+}
+
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
@@ -71,10 +91,45 @@ exports.addCart = async (req, res) => {
 };
 
 exports.history = async (req, res) => {
+  var hasError = false;
   res = general.setResHeader(res);
   try {
-    const history = await Payments.find({ user_id: req.userId });
-    return res.json(history);
+
+    const features = new APIfeatures(
+      Payments.find({ user_id: req.userId }),
+      req.query
+    )
+      .sorting("-createdAt")
+      .paginating();
+
+    const histories = await features.query;
+    console.log("D128 " + histories);
+
+    var result = [];
+    for (var i = 0; i < histories.length; i++) {
+      if (hasError) {
+        return;
+      }
+      await Status.find(
+        {
+          _id: ObjectId(histories.at(i).status),
+        }
+      ).then(function (statusR, err) {
+        if (err) {
+          hasError = true;
+          res.status(500).send({ message: err });
+          return;
+        }
+        var obj = histories.at(i).toJSON();
+        obj.status = statusR.at(0).name;
+        result.push(obj);
+      });
+    }
+    if (hasError) {
+      return;
+    }
+
+    return res.json(result);
   } catch (error) {
     return res.status(500).json({ msg: error.message });
   }
