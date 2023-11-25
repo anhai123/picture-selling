@@ -70,7 +70,7 @@ const CommentCreateForm = ({ id, callbackComment, setCallbackComment }) => {
     setCallbackComment(!callbackComment);
   };
   return (
-    <Form form={form} onFinish={commentSubmit}>
+    <Form form={form} onFinish={commentSubmit} className="form-create-comment">
       <Rate
         style={{ position: "absolute", zIndex: "1" }}
         onChange={(e) => {
@@ -82,7 +82,7 @@ const CommentCreateForm = ({ id, callbackComment, setCallbackComment }) => {
           <TextArea
             placeholder="Enter content..."
             rows={5}
-            style={{ paddingTop: "30px" }}
+            style={{ paddingTop: "40px" }}
             className="textArea"
             onChange={(e) => onChangeInput(e)}
           ></TextArea>

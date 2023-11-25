@@ -1,4 +1,8 @@
 .textArea:placeholder-shown {
-    padding-top: 30px;
+  padding-top: 30px;
   padding-left: 0px;
-  }
+}
+
+.form-create-comment .ant-form-item-control-input-content {
+  /* padding: 1rem; */
+}

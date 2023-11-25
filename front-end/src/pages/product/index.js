@@ -19,10 +19,13 @@ import ProductCard from "./ProductCard";
 import { GlobalState } from "../../GlobalState";
 import productService from "../../services/product.service";
 const { Meta } = Card;
-const pageSize = 8;
+const pageSize = 5;
 const ProductList = () => {
   const [product, setProduct] = useState(["helo"]);
-  const handleChange = () => { };
+  const handleChange = (page, pageSize) => {
+    console.log(page)
+    console.log(pageSize)
+  };
   const state = useContext(GlobalState);
   const [products, setProducts] = state.productsAPI.products;
   const [isAdmin] = state.userAPI.isAdmin;
@@ -125,9 +128,8 @@ const ProductList = () => {
         />
       ))}
       <Pagination
-        pageSize={pageSize}
-        current={1}
-        total={product.length}
+        defaultCurrent={1}
+        total={products.length}
         onChange={handleChange}
         style={{ bottom: "0px !important" }}
       />

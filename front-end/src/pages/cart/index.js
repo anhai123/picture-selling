@@ -21,17 +21,18 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import userService from "../../services/user.service";
 import paymentService from "../../services/payment.service";
+
 const { Text } = Typography;
 const Cart = () => {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [visible, setVisible] = useState(false);
-
   const [form] = Form.useForm();
   const state = useContext(GlobalState);
+  const addToCartApi = state.userAPI.addCart
   const [cart, setCart] = state.userAPI.cart;
-
+  const [userInfo] = state.userAPI.userInfo
   const [total, setTotal] = useState(0);
   const [callback, setCallback] = state.userAPI.callback;
 
@@ -57,10 +58,11 @@ const Cart = () => {
   console.log("CART", cart);
 
   const addToCart = async (cart) => {
-    userService.patchItemInCart(cart).then(
+    console.log(userInfo._id)
+    userService.patchItemInCart(userInfo._id, cart).then(
       (response) => {
         console.log(response);
-        message.success("update cart successfully");
+        // message.success("update cart successfully");
       },
       (error) => {
         const _content =
@@ -74,6 +76,7 @@ const Cart = () => {
         message.error(_content);
       }
     );
+
   };
 
   const increment = (id) => {
@@ -147,6 +150,17 @@ const Cart = () => {
     setVisible(false);
     form.resetFields();
   };
+
+  const handleChangeValueInputNumberQuantityProduct = (val, productId) => {
+    cart.forEach((item) => {
+      if (item._id === productId) {
+        item.quantity = item.quantity === 1 ? 1 : val;
+      }
+    });
+
+    setCart([...cart]);
+    addToCart(cart);
+  }
   const handleBuyNow = () => {
     Modal.confirm({
       title: "Please enter your address",
@@ -175,67 +189,68 @@ const Cart = () => {
   } else
     return (
       <>
-        <>
-          <List
-            className="demo-loadmore-list"
-            itemLayout="horizontal"
-            dataSource={list}
-            renderItem={(item) => (
-              <Card>
-                {cart.map((product) => {
-                  return (
-                    <List.Item
-                      actions={[
-                        <Text code strong>
-                          $ {product.price * product.quantity}
-                        </Text>,
-                        <InputNumber
-                          key={product._id}
-                          onStep={(value, info) =>
-                            handleChangeProductNumber(value, info, product._id)
-                          }
-                          min={1}
-                          defaultValue={1}
-                        ></InputNumber>,
-                        <a key="list-loadmore-edit">
-                          <DeleteOutlined
-                            onClick={() => removeProduct(product._id)}
-                          />
-                        </a>,
-                      ]}
-                    >
-                      <Skeleton
-                        avatar
-                        title={false}
-                        loading={item.loading}
-                        active
-                      >
-                        <List.Item.Meta
-                          avatar={<Image width={200} src={product.images} />}
-                          title={<h2>{product.title}</h2>}
-                          description={product.description}
+        <List
+          style={{ backgroundColor: 'var(--background-color-little-white)' }}
+          className="demo-loadmore-list"
+          itemLayout="horizontal"
+          dataSource={list}
+          renderItem={(item) => (
+            <Card style={{ backgroundColor: 'var(--background-color-little-white)' }}>
+              {cart.map((product) => {
+                return (
+                  <List.Item
+                    style={{ backgroundColor: 'var(--background-color-white)' }}
+                    actions={[
+                      <Text code strong>
+                        $ {product.price * product.quantity}
+                      </Text>,
+                      <InputNumber
+                        key={product._id}
+                        //onChange={(val) => handleChangeValueInputNumberQuantityProduct(val, product._id)}
+                        onStep={(value, info) =>
+                          handleChangeProductNumber(value, info, product._id)
+                        }
+                        min={1}
+                        defaultValue={1}
+                      ></InputNumber>,
+                      <a key="list-loadmore-edit">
+                        <DeleteOutlined
+                          onClick={() => removeProduct(product._id)}
                         />
-                      </Skeleton>
-                    </List.Item>
-                  );
-                })}
-              </Card>
-            )}
-          />
-          <div
-            style={{
-              display: "flex",
-              paddingTop: "0px",
-              justifyContent: "space-between",
-              padding: "24px",
-            }}
-          >
-            <Text code strong style={{ fontSize: "30px" }}>
-              Total: $ {total}
-            </Text>
-            <Button onClick={handleBuyNow}>Buy Now</Button>
-          </div>
-        </>
+                      </a>,
+                    ]}
+                  >
+                    <Skeleton
+                      avatar
+                      title={false}
+                      loading={item.loading}
+                      active
+                    >
+                      <List.Item.Meta
+                        avatar={<Image width={200} src={product.images} />}
+                        title={<h2>{product.title}</h2>}
+                        description={product.description}
+                      />
+                    </Skeleton>
+                  </List.Item>
+                );
+              })}
+            </Card>
+          )}
+        />
+        <div
+          style={{
+            display: "flex",
+            paddingTop: "0px",
+            justifyContent: "space-between",
+            padding: "24px",
+          }}
+        >
+          <Text code strong style={{ fontSize: "30px" }}>
+            Total: $ {total}
+          </Text>
+          <Button type="primary" danger onClick={handleBuyNow}>Buy now</Button>
+        </div>
       </>
     );
 };

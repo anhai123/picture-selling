@@ -84,7 +84,7 @@ const ProductDetail = () => {
 
   return (
     <div>
-      <Card>
+      <Card className="product-description-containner">
         <div>
           <BackButton />
         </div>
@@ -135,7 +135,8 @@ const ProductDetail = () => {
         </div>
       </Card>
 
-      <Card>
+      <Card title={<h1>Bình luận</h1>}
+        bordered={true} className="card-comment-containner">
         {isLogged && (
           <CommentCreateForm
             id={params.id}
@@ -143,8 +144,6 @@ const ProductDetail = () => {
             setCallbackComment={setCallbackComment}
           />
         )}
-        <CommentItem />
-
         {comments.length === 0 ? (
           <p
             className="text-center text-lg"
@@ -184,8 +183,10 @@ const ProductDetail = () => {
           </>
         )}
       </Card>
+      <div className="related-product-containner">
+        <Title level={3}>Sản phẩm liên quan</Title>
 
-      <Title level={3}>RELATED PRODUCT</Title>
+      </div>
       <div className="site-card-border-less-wrapper">
         {products.map((product) =>
           product.category === productDetail.category ? (

@@ -12,7 +12,7 @@ const ProductsAPI = () => {
   useEffect(() => {
     const getProducts = async () => {
       const response = await axios.get(
-        `http://localhost:9001/products?limit=${page * 15
+        `http://localhost:9001/products?limit=${page * 5
         }&${categorySelected}&${sort}&title[regex]=${search}`
       );
 

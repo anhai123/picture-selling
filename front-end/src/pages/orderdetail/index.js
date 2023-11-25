@@ -16,80 +16,45 @@ const columns = [
     key: "PaymentI",
     render: (src) => <Image src={src} />,
     width: "40%",
+
   },
   {
     title: "Product",
     dataIndex: "productName",
     key: "date_purchased",
+    render: (value) => (
+      <Text style={{ fontSize: '30px' }} strong>
+        {value}
+      </Text>
+    ),
   },
   {
     title: "Quantity",
     dataIndex: "quantity",
     key: "date_purchased",
+    render: (value) => (
+      <Text style={{ fontSize: '30px' }} strong>
+        {value}
+      </Text>
+    ),
   },
   {
     title: "Price",
     dataIndex: "price",
     key: "price",
     render: (value) => (
-      <Text code strong>
+      <Text style={{ fontSize: '30px' }} code strong>
         {value} $
       </Text>
     ),
   },
 ];
-const data = [
-  {
-    picture:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/great-ocean-road-174028267-1494616481.jpg",
-    productName: "as",
-    quantity: "as",
-    price: 8,
-  },
-  {
-    picture:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbsoPnFcoNqTf791Kjly9Koahf_Uiz0VXoFykP0NwORCTk91dGfto4uyky9qPaYxOGdrw&usqp=CAU",
-    productName: "as",
-    quantity: "as",
-    price: 8,
-  },
-  {
-    picture:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK_md5iMScdvNnM14O_TRdcNE81odhOxSUpw&usqp=CAU",
-    productName: "as",
-    quantity: "as",
-    price: 8,
-  },
-];
+
 const OrderDetail = () => {
   const state = useContext(GlobalState);
   const [history] = state.userAPI.history;
   const [orderDetail, setOrderDetail] = useState([]);
   const [data1, setData] = useState([]);
-  console.log("HISTORY", history);
-  const data = [
-    {
-      picture:
-        "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/great-ocean-road-174028267-1494616481.jpg",
-      productName: "as",
-      quantity: "as",
-      price: 8,
-    },
-    {
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbsoPnFcoNqTf791Kjly9Koahf_Uiz0VXoFykP0NwORCTk91dGfto4uyky9qPaYxOGdrw&usqp=CAU",
-      productName: "as",
-      quantity: "as",
-      price: 8,
-    },
-    {
-      picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK_md5iMScdvNnM14O_TRdcNE81odhOxSUpw&usqp=CAU",
-      productName: "as",
-      quantity: "as",
-      price: 8,
-    },
-  ];
   const params = useParams();
   useEffect(() => {
     if (params.id) {
@@ -120,7 +85,7 @@ const OrderDetail = () => {
     <Layout>
       <Card>
         <BackButton />
-        <Content>
+        <Content >
           <div className="header-item-height">
             <Text strong>Name: {orderDetail.name} </Text>
           </div>
@@ -129,7 +94,11 @@ const OrderDetail = () => {
           </div>
 
           {/* <div style={{ clear: "both" }}></div> */}
-          <Table columns={columns} dataSource={data1} />
+          <Table pagination={{
+            position: ['none', 'none'],
+          }} columns={columns} dataSource={data1} scroll={{
+            y: 400,
+          }} />
         </Content>
       </Card>
     </Layout>

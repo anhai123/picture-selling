@@ -8,7 +8,7 @@ const { Title, Text } = Typography;
 const { Header, Footer, Sider, Content } = Layout;
 const columns = [
   {
-    title: "PaymentId",
+    title: "Payment code",
     dataIndex: "paymentId",
     key: "PaymentI",
     render: (text) => <span>{text}</span>,
@@ -62,16 +62,18 @@ const OrderHistory = () => {
             }}
             level={1}
           >
-            HISTORY
+            History
           </Title>
         </div>
         {/* <div style={{ clear: "both" }}></div> */}
       </Header>
       <Content>
         <h4 style={{ paddingLeft: "16px" }}>
-          You have {history.length} ordered
+          You have {history.length} orders
         </h4>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data} pagination={{
+          position: ['none', 'none'],
+        }} />
       </Content>
     </Layout>
   );

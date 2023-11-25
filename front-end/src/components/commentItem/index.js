@@ -46,6 +46,7 @@ const CommentItem = ({ comment }) => {
     comment && (
       <Comment
         // actions={actions}
+        className="comment-containner"
         author={<a>Han Solo</a>}
         avatar={
           <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />

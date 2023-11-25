@@ -42,7 +42,7 @@ const App = () => {
       <div>
         <Router>
           <HeaderCom />
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", }}>
             <Routes>
               <Route path="/" element={<ProductList />} />
               <Route path="/detail/:id" element={<ProductDetail />} />

@@ -1,9 +1,15 @@
 .comment-action {
-    padding-left: 8px;
-    cursor: 'auto';
-  }
-  
-  [class*='-col-rtl'] .comment-action {
-    padding-right: 8px;
-    padding-left: 0;
-  }
+  padding-left: 8px;
+  cursor: 'auto';
+}
+
+[class*='-col-rtl'] .comment-action {
+  padding-right: 8px;
+  padding-left: 0;
+}
+
+.comment-containner {
+  border: 1px solid rgb(11 5 21);
+  padding: 1rem;
+  padding-top: 0px;
+}
