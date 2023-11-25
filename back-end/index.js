@@ -58,7 +58,7 @@ app.use("/home", home);
 //     console.error("Connection error", err);
 //     process.exit();
 //   });
-
+db.mongoose.set("strictQuery", false);
 db.mongoose
   .connect(
     "mongodb+srv://my-restaurant:RSPpaNHXRQjdvpzq@my-restaurant.znkjyyi.mongodb.net/shopping?retryWrites=true&w=majority",
@@ -106,7 +106,6 @@ function initial() {
   });
 }
 // connection
-console.log("hello");
 io.on("connection", (socket) => {
   console.log(socket.id + " connected!");
 

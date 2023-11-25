@@ -4,6 +4,7 @@ const Category = db.category;
 const Products = db.product;
 var ObjectId = require("mongodb").ObjectId;
 const general = require("./generalController");
+
 exports.getCategories = async (req, res) => {
   res = general.setResHeader(res);
   try {

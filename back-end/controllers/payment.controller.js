@@ -1,10 +1,13 @@
 const config = require("../config/auth.config");
 const db = require("../models");
+const Status = require("../models/status.model");
 const Products = db.product;
 const Payments = db.payment;
 const Users = db.user;
 var ObjectId = require("mongodb").ObjectId;
+const mongoose = require("mongoose");
 const general = require("./generalController");
+
 exports.getPayments = async (req, res) => {
   res = general.setResHeader(res);
   try {
@@ -24,23 +27,35 @@ exports.createPayment = async (req, res) => {
     }
 
     const { cart, address } = req.body;
-    console.log(user);
     const { _id, username, email } = user;
 
-    const newPayment = new Payments({
-      user_id: _id,
-      name: username,
-      email,
-      cart,
-      address,
-    });
+    Status.find(
+      {
+        name: "Đang xác nhận",
+      },
+      async (err, statusR) => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+        
+        var newPayment = new Payments({
+          user_id: _id,
+          name: username,
+          email,
+          status: ObjectId(statusR._id),
+          cart,
+          address,
+        });
 
-    cart.filter((item) => {
-      return sold(item._id, item.quantity, item.sold);
-    });
+        cart.filter((item) => {
+          return sold(item._id, item.quantity, item.sold);
+        });
 
-    await newPayment.save();
-    return res.json({ msg: "Payment Success." });
+        await newPayment.save();
+        return res.json({ msg: "Payment Success." });
+      }
+    );
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }

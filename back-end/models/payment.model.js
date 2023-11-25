@@ -18,9 +18,10 @@ const Payment = mongoose.model(
       },
 
       status: {
-        type: Boolean,
-        default: false,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Status",
       },
+
       cart: {
         type: Array,
         default: [],
