@@ -22,10 +22,7 @@ const { Meta } = Card;
 const pageSize = 5;
 const ProductList = () => {
   const [product, setProduct] = useState(["helo"]);
-  const handleChange = (page, pageSize) => {
-    console.log(page)
-    console.log(pageSize)
-  };
+
   const state = useContext(GlobalState);
   const [products, setProducts] = state.productsAPI.products;
   const [isAdmin] = state.userAPI.isAdmin;
@@ -33,7 +30,8 @@ const ProductList = () => {
   const [callback, setCallback] = state.productsAPI.callback;
   const [loading, setLoading] = useState(false);
   const [isCheckAll, setIsCheckAll] = useState(false);
-
+  const [page, setPage] = state.productsAPI.page
+  const [totalProduct, setTotalProduct] = state.productsAPI.totalProduct
   const handleCheck = (id) => {
     products.forEach((product) => {
       if (product._id === id) {
@@ -43,6 +41,12 @@ const ProductList = () => {
     setProducts([...products]);
   };
 
+
+  const handleChange = (page, pageSize) => {
+    console.log(page)
+    console.log(pageSize)
+    setPage(page)
+  };
   const deleteProduct = async (id) => {
     productService.deleteProduct(id).then(
       (response) => {
@@ -129,9 +133,10 @@ const ProductList = () => {
       ))}
       <Pagination
         defaultCurrent={1}
-        total={products.length}
+        total={totalProduct}
         onChange={handleChange}
         style={{ bottom: "0px !important" }}
+        defaultPageSize={10}
       />
     </div>
   );

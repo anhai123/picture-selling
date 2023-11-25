@@ -112,15 +112,7 @@ const Cart = () => {
       addToCart(cart);
     }
   };
-  // { offset: number, type: 'up' | 'down' }
-  const handleChangeProductNumber = (value, info, id) => {
-    console.log(value, id);
-    if (info.type === "up") {
-      increment(id);
-    } else if (info.type === "down") {
-      decrement(id);
-    }
-  };
+
 
   const handleSubmit = (values) => {
     values = form.validateFields();
@@ -154,7 +146,7 @@ const Cart = () => {
   const handleChangeValueInputNumberQuantityProduct = (val, productId) => {
     cart.forEach((item) => {
       if (item._id === productId) {
-        item.quantity = item.quantity === 1 ? 1 : val;
+        item.quantity = val < 0 ? 1 : val;
       }
     });
 
@@ -206,12 +198,12 @@ const Cart = () => {
                       </Text>,
                       <InputNumber
                         key={product._id}
-                        //onChange={(val) => handleChangeValueInputNumberQuantityProduct(val, product._id)}
-                        onStep={(value, info) =>
-                          handleChangeProductNumber(value, info, product._id)
-                        }
+                        onChange={(val) => handleChangeValueInputNumberQuantityProduct(val, product._id)}
+                        // onStep={(value, info) =>
+                        //   handleChangeProductNumber(value, info, product._id)
+                        // }
                         min={1}
-                        defaultValue={1}
+                        defaultValue={product.quantity}
                       ></InputNumber>,
                       <a key="list-loadmore-edit">
                         <DeleteOutlined
