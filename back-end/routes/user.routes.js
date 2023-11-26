@@ -40,4 +40,9 @@ module.exports = function (app) {
     [authJwt.verifyToken],
     controller.history
   );
+  app.get(
+    "/api/shopping/user/historyType",
+    [authJwt.verifyToken],
+    controller.historyType
+  );
 };

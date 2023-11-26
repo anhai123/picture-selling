@@ -8,14 +8,13 @@ var ObjectId = require("mongodb").ObjectId;
 const mongoose = require("mongoose");
 const general = require("./generalController");
 
-exports.getPayments = async (req, res) => {
-  res = general.setResHeader(res);
-  try {
-    const payments = await Payments.find();
-    return res.json(payments);
-  } catch (err) {
-    return res.status(500).json({ msg: err.message });
-  }
+const sold = async (id, quantity, oldSold) => {
+  await Products.findOneAndUpdate(
+    { _id: id },
+    {
+      sold: quantity + oldSold,
+    }
+  );
 };
 
 exports.createPayment = async (req, res) => {
@@ -23,7 +22,7 @@ exports.createPayment = async (req, res) => {
   try {
     const user = await Users.findById(req.userId).select("username email");
     if (!user) {
-      return res.status(400).json({ msg: "User does not exist." });
+      return res.status(404).json({ code:44, message: "User does not exist!" });
     }
 
     const { cart, address } = req.body;
@@ -35,7 +34,7 @@ exports.createPayment = async (req, res) => {
       },
       async (err, statusR) => {
         if (err) {
-          res.status(500).send({ message: err });
+          res.status(500).send({ code:50, message: err });
           return;
         }
         
@@ -43,7 +42,7 @@ exports.createPayment = async (req, res) => {
           user_id: _id,
           name: username,
           email,
-          status: ObjectId(statusR._id),
+          status: statusR.at(0)._id,
           cart,
           address,
         });
@@ -53,19 +52,54 @@ exports.createPayment = async (req, res) => {
         });
 
         await newPayment.save();
-        return res.json({ msg: "Payment Success." });
+        return res.json({ code:0, message: "Payment Success!" });
       }
     );
+  } catch (err) {
+    return res.status(500).json({ code:50, message: err.message });
+  }
+};
+
+exports.getPayments = async (req, res) => {
+  res = general.setResHeader(res);
+  try {
+    const payments = await Payments.find();
+    return res.json(payments);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
 };
 
-const sold = async (id, quantity, oldSold) => {
-  await Products.findOneAndUpdate(
-    { _id: id },
-    {
-      sold: quantity + oldSold,
-    }
-  );
+exports.updatePayment = async (req, res) => {
+  res = general.setResHeader(res);
+  try {
+    const { _id, status } = req.body;
+
+    Status.find(
+      {
+        name: status,
+      },
+      async (err, statusR) => {
+        if (err) {
+          res.status(500).send({ code:50, message: err });
+          return;
+        }
+
+        await Payments.findOneAndUpdate(
+          { _id: ObjectId(_id) },
+          {
+            status: statusR.at(0)._id
+          }
+        ).then(function (paymentsR, err) {
+          if (err) {
+            res.status(500).send({ code:50, message: err });
+            return;
+          }
+          return res.json({ code:0, message: "Updated success!" });
+        });
+      }
+    );
+  } catch (error) {
+    return res.status(500).json({ code:50, message: error.message });
+  }
 };

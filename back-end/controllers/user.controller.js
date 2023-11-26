@@ -94,7 +94,6 @@ exports.history = async (req, res) => {
   var hasError = false;
   res = general.setResHeader(res);
   try {
-
     const features = new APIfeatures(
       Payments.find({ user_id: req.userId }),
       req.query
@@ -103,7 +102,7 @@ exports.history = async (req, res) => {
       .paginating();
 
     const histories = await features.query;
-    console.log("D128 " + histories);
+    console.log(`D105 ${histories}`);
 
     var result = [];
     for (var i = 0; i < histories.length; i++) {
@@ -117,7 +116,7 @@ exports.history = async (req, res) => {
       ).then(function (statusR, err) {
         if (err) {
           hasError = true;
-          res.status(500).send({ message: err });
+          res.status(500).send({ code:50, message: err });
           return;
         }
         var obj = histories.at(i).toJSON();
@@ -131,6 +130,62 @@ exports.history = async (req, res) => {
 
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ msg: error.message });
+    return res.status(500).json({ code:50, message: error.message });
+  }
+};
+
+exports.historyType = async (req, res) => {
+  var hasError = false;
+  res = general.setResHeader(res);
+  try {
+
+    await Status.find(
+      {
+        name: req.query.type,
+      }
+    ).then(async function (statusR, err) {
+      if (err) {
+        hasError = true;
+        res.status(500).send({ code:50, message: err });
+        return;
+      }
+      if (statusR.length == 0) {
+        hasError = true;
+        res.status(404).send({ code:44, message: `Không tìm thấy trạng thái có tên '${req.query.type}'!` });
+        return;
+      }
+
+      const features = new APIfeatures(
+        Payments.find({
+          user_id: req.userId,
+          status: statusR.at(0)._id,
+        }),
+        req.query
+      )
+        .sorting("-createdAt")
+        .paginating();
+
+      const histories = await features.query;
+
+      var result = [];
+      for (var i = 0; i < histories.length; i++) {
+        if (hasError) {
+          return;
+        }
+
+        var obj = histories.at(i).toJSON();
+        obj.status = req.query.type;
+        result.push(obj);
+
+        if (hasError) {
+          return;
+        }
+
+      }
+
+      return res.json(result);
+    });
+  } catch (error) {
+    return res.status(500).json({code:50,  message: error.message });
   }
 };
