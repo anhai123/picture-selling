@@ -50,6 +50,8 @@ exports.getProducts = async (req, res) => {
   res = general.setResHeader(res);
   console.log(req.query);
   try {
+    const totalProduct = (await Products.find()).length
+    console.log(`tong so san pham: ${totalProduct}`)
     const features = new APIfeatures(Products.find(), req.query)
       .filtering()
       .sorting()
@@ -61,6 +63,7 @@ exports.getProducts = async (req, res) => {
       success: true,
       result: products.length,
       products: products,
+      totalProduct: totalProduct
     });
   } catch (error) {
     return res.status(500).json({ msg: error.message });

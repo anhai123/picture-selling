@@ -136,7 +136,7 @@ const ProductList = () => {
         total={totalProduct}
         onChange={handleChange}
         style={{ bottom: "0px !important" }}
-        defaultPageSize={10}
+        defaultPageSize={4}
       />
     </div>
   );
