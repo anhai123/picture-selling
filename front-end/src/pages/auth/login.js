@@ -19,7 +19,7 @@ const Login = () => {
       (response) => {
         console.log(response);
         message.success("login successfully");
-        window.location.href = "/";
+        window.location.href = "shopping/product";
       },
       (error) => {
         const _content =

@@ -13,8 +13,8 @@ const ProductsAPI = () => {
   useEffect(() => {
     const getProducts = async () => {
       const response = await axios.get(
-        `http://localhost:9001/products?limit=${page * 10
-        }&${categorySelected}&${sort}&title[regex]=${search}`
+        `http://localhost:9001/products?limit=${4
+        }&page=${page}&${categorySelected}&${sort}&title[regex]=${search}`
       );
 
       // const response = await axios.get(`/products`);

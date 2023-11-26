@@ -167,7 +167,8 @@ const HeaderCom = () => {
             <Input.Search
               style={{
                 position: "relative",
-                width: "60%",
+                width: "50%",
+                maxWidth: "60%",
                 /* top: 50%; */
                 /* left: 50%; */
                 transform: "translate(0%, 25%)",
