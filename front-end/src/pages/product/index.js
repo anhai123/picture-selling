@@ -9,6 +9,7 @@ import {
   Button,
   message,
   Popconfirm,
+  Layout
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useContext } from "react";
@@ -18,11 +19,33 @@ import { DeleteOutlined } from "@ant-design/icons";
 import ProductCard from "./ProductCard";
 import { GlobalState } from "../../GlobalState";
 import productService from "../../services/product.service";
+import CollapseMenu from "../../components/collapseMenu/CollapseMenu";
+const { Header, Footer, Sider, Content } = Layout;
 const { Meta } = Card;
 const pageSize = 5;
-const ProductList = () => {
-  const [product, setProduct] = useState(["helo"]);
+const headerStyle = {
+  textAlign: 'center',
+  color: '#fff',
+  height: 64,
+  paddingInline: 50,
+  lineHeight: '64px',
+  backgroundColor: '#7dbcea',
+};
+const contentStyle = {
+  minHeight: 120,
+};
+const siderStyle = {
+  lineHeight: '120px',
+  color: '#fff',
+  width: '240px',
+  paddingTop: "1rem"
+};
+const footerStyle = {
+  textAlign: 'center',
+  color: '#fff',
 
+};
+const ProductList = () => {
   const state = useContext(GlobalState);
   const [products, setProducts] = state.productsAPI.products;
   const [isAdmin] = state.userAPI.isAdmin;
@@ -99,46 +122,57 @@ const ProductList = () => {
 
   return (
     <div className="site-card-border-less-wrapper">
-      <Space.Compact block>
-        <Filter />
-        {isAdmin && (
-          <Space.Compact
-            block
-            style={{ justifyContent: "flex-end", paddingRight: "40px" }}
-          >
-            <Checkbox checked={isCheckAll} onChange={checkAll}></Checkbox>
+      <Layout>
+        <Sider style={siderStyle} width={240}>
+          <CollapseMenu />
+        </Sider>
+        <Layout>
+          <Content style={contentStyle}>
+            {isAdmin && (
+              <Space.Compact
+                block
+                style={{ justifyContent: "flex-end", paddingRight: "40px" }}
+              >
+                <Checkbox checked={isCheckAll} onChange={checkAll}></Checkbox>
 
-            <Popconfirm
-              title="Delete the task"
-              description="Are you sure to delete this task?"
-              onConfirm={confirm}
-              onCancel={cancel}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button> Delete all</Button>
-            </Popconfirm>
-          </Space.Compact>
-        )}
-      </Space.Compact>
+                <Popconfirm
+                  title="Delete the task"
+                  description="Are you sure to delete this task?"
+                  onConfirm={confirm}
+                  onCancel={cancel}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button> Delete all</Button>
+                </Popconfirm>
+              </Space.Compact>
+            )}
+            <div className="product-list-containner">
 
-      {products.map((product, index) => (
-        <ProductCard
-          key={product._id}
-          product={product}
-          isAdmin={isAdmin}
-          handleCheck={handleCheck}
-          deleteProduct={deleteProduct}
-        />
-      ))}
-      <Pagination
-        defaultCurrent={1}
-        total={totalProduct}
-        onChange={handleChange}
-        style={{ bottom: "0px !important" }}
-        defaultPageSize={4}
-      />
-    </div>
+              {products.map((product, index) => (
+                <ProductCard
+                  key={product._id}
+                  product={product}
+                  isAdmin={isAdmin}
+                  handleCheck={handleCheck}
+                  deleteProduct={deleteProduct}
+                />
+              ))}
+            </div>
+          </Content>
+          <Footer style={footerStyle}>
+            <div className="pagination-containner">
+              <Pagination
+                defaultCurrent={1}
+                total={totalProduct}
+                onChange={handleChange}
+                style={{ bottom: "0px !important" }}
+                defaultPageSize={5}
+              />
+            </div> </Footer>
+        </Layout>
+      </Layout>
+    </div >
   );
 };
 export default ProductList;

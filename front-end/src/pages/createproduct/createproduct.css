@@ -1,29 +1,28 @@
 .description-containner {
-    display: flex;
-    padding-top: 3%;
-    position: absolute;
-    width: 100%;
-    height: 80%;
-}
-.ant-image{  
-display: inline-block;
+  display: flex;
+  padding-top: 3%;
 
+  height: 80%;
+}
+
+.ant-image {
+  display: inline-block;
   width: 40%;
-  
 }
-.image{
-    height: 100% !important;
-    width: 100%;
-    object-fit: fill;
-    padding-left: 48px;
+
+.image {
+  height: 100% !important;
+  width: 100%;
+  object-fit: fill;
+  padding-left: 48px;
 }
+
 .hero-infor {
   padding-bottom: 10px;
-  
+
 }
- .edit-button {
- 
-}
+
+.edit-button {}
 
 .ant-form-item-label {
   display: flex !important

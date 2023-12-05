@@ -14,6 +14,7 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
 import authService from "../../services/auth.service";
 import { GlobalState } from "../../GlobalState";
+
 const { Search } = Input;
 const { Header, Content, Footer } = Layout;
 const { Text } = Typography;
@@ -39,7 +40,7 @@ const HeaderCom = () => {
   const logoutUser = async () => {
     authService.logout();
 
-    window.location.href = "/"; // refresh page
+    window.location.pathname = `${state.API_ONLY_HREF}`; // refresh page
   };
   const {
     token: { colorBgContainer },
@@ -48,21 +49,25 @@ const HeaderCom = () => {
   const adminRouter = [
     {
       key: "create_product",
-      label: <Link to="/create_product">Create Product</Link>,
+      label: <Link to={`${state.API_ONLY_HREF}create_product`}>Thêm SP</Link>,
     },
     {
       key: "categories",
-      label: <Link to="/categories">Categories</Link>,
+      label: <Link to={`${state.API_ONLY_HREF}categories`}>Danh mục</Link>,
     },
 
     {
       key: "history",
-      label: <Link to="/history">History</Link>,
+      label: <Link to={`${state.API_ONLY_HREF}manage-order`}>Đơn hàng</Link>,
+    },
+    {
+      key: "statistic",
+      label: <Link to={`${state.API_ONLY_HREF}statistic`}>Thống kê</Link>,
     },
     isLogged && {
       key: "logout",
       label: (
-        <Link to="/" onClick={logoutUser}>
+        <Link to={`${state.API_ONLY_HREF}`} onClick={logoutUser}>
           Logout
         </Link>
       ),
@@ -72,12 +77,12 @@ const HeaderCom = () => {
   const loggedRouter = [
     isLogged && {
       key: "history",
-      label: <Link to="/history">History</Link>,
+      label: <Link to={`${state.API_ONLY_HREF}history`}>History</Link>,
     },
     isLogged && {
       key: "logout",
       label: (
-        <Link to="/" onClick={logoutUser}>
+        <Link to={`${state.API_ONLY_HREF}`} onClick={logoutUser}>
           Logout
         </Link>
       ),
@@ -86,7 +91,7 @@ const HeaderCom = () => {
       key: "cart",
       label: (
         <Badge count={cart.length} size="small">
-          <Link to="/cart">
+          <Link to={`${state.API_ONLY_HREF}cart`}>
             <ShoppingCartOutlined
               style={{ fontSize: "24px", color: "white" }}
               size="medium"
@@ -100,11 +105,11 @@ const HeaderCom = () => {
   let ItemsNavbar = [
     {
       key: "shop",
-      label: <Link to="/">{isAdmin ? "Products" : "Shop"}</Link>,
+      label: <Link to={`${state.API_ONLY_HREF}`}>{isAdmin ? "Products" : "Shop"}</Link>,
     },
     !isLogged && {
       key: "loginRegis",
-      label: <Link to="/login">Login / Register</Link>,
+      label: <Link to={`${state.API_ONLY_HREF}login`}>Login / Register</Link>,
     },
 
     ...loggedRouter,
@@ -113,7 +118,7 @@ const HeaderCom = () => {
     ItemsNavbar = [
       {
         key: "shop",
-        label: <Link to="/">{isAdmin ? "Products" : "Shop"}</Link>,
+        label: <Link to={`${state.API_ONLY_HREF}`}>{isAdmin ? "Products" : "Shop"}</Link>,
       },
 
       ...adminRouter,
@@ -147,84 +152,61 @@ const HeaderCom = () => {
   ItemsCategory = [getAllProduct].concat(ItemsCategory);
 
   return (
-    <Layout className="layout">
-      <Header style={{ boxSizing: "border-box", height: "8rem" }}>
-        <div className="site-space-compact-wrapper">
-          <Space.Compact block>
-            <Text
-              style={{
-                color: "white",
-                width: "10%",
-                position: "relative",
-                fontSize: "1.438rem",
-                transform: "translate(0%, 20%)",
-                marginRight: "3rem",
-              }}
-              italic
-            >
-              <Link to="/">{isAdmin ? "Admin" : "Kaimono"}</Link>
-            </Text>
-            <Input.Search
-              style={{
-                position: "relative",
-                width: "50%",
-                maxWidth: "60%",
-                /* top: 50%; */
-                /* left: 50%; */
-                transform: "translate(0%, 25%)",
-              }}
-              defaultValue="0571"
-              value={search}
-              onChange={(e) => setSearch(e.target.value.toLowerCase())}
-            />
-
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              defaultSelectedKeys={["2"]}
-              items={ItemsNavbar}
-              style={{
-                width: "30%",
-                display: "flex",
-                justifyContent: "space-evenly",
-              }}
-            />
-
-            <br />
-          </Space.Compact>
-          {routePathPattern === "/" ? (
+    <Layout style={{ boxSizing: "border-box", position: "sticky", top: "0px", zIndex: "10", minHeight: '50px' }}>
+      <div className="layout" >
+        <Header >
+          <div className="site-space-compact-wrapper">
             <Space.Compact block>
+              <Text
+                style={{
+                  color: "white",
+                  width: "10%",
+                  minWidth: '189px',
+                  position: "relative",
+                  fontSize: "1.438rem",
+
+                  margin: 'auto',
+                  marginRight: '0px',
+                  marginLeft: '0px'
+                }}
+                italic
+              >
+                <Link to={`${state.API_ONLY_HREF}`}>{isAdmin ? "Admin" : "Kaimono"}</Link>
+              </Text>
+              <Input.Search
+                style={{
+                  position: "relative",
+                  width: "40%",
+                  maxWidth: "60%",
+                  transform: "translate(0%, 25%)",
+                }}
+                defaultValue="0571"
+                value={search}
+                onChange={(e) => setSearch(e.target.value.toLowerCase())}
+              />
+
               <Menu
                 theme="dark"
                 mode="horizontal"
                 defaultSelectedKeys={["2"]}
-                items={ItemsCategory}
+                items={ItemsNavbar}
                 style={{
-                  width: "100%",
-                  /* position: relative, */
+                  width: "45%",
                   display: "flex",
-                  justifyContent: "flex-start",
+                  justifyContent: "flex-end",
                 }}
               />
+
+              <br />
             </Space.Compact>
-          ) : (
-            <> </>
-          )}
-        </div>
-      </Header>
-      <Content
-        style={{
-          padding: "0 50px",
-        }}
-      >
-        <div
-          className="site-layout-content"
-          style={{
-            background: colorBgContainer,
-          }}
-        ></div>
-      </Content>
+
+
+          </div>
+        </Header>
+      </div>
+
     </Layout>
+
   );
 };
 export default HeaderCom;

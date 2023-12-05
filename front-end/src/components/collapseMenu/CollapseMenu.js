@@ -7,8 +7,12 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     PieChartOutlined,
+    FilterOutlined,
+    ShopOutlined
 } from '@ant-design/icons';
 import { Button, Menu } from 'antd';
+import { useContext } from 'react';
+import { GlobalState } from '../../GlobalState';
 function getItem(label, key, icon, children, type) {
     return {
         key,
@@ -18,48 +22,93 @@ function getItem(label, key, icon, children, type) {
         type,
     };
 }
-const items = [
-    getItem('Option 1', '1', <PieChartOutlined />),
-    getItem('Option 2', '2', <DesktopOutlined />),
-    getItem('Option 3', '3', <ContainerOutlined />),
-    getItem('Navigation One', 'sub1', <MailOutlined />, [
-        getItem('Option 5', '5'),
-        getItem('Option 6', '6'),
-        getItem('Option 7', '7'),
-        getItem('Option 8', '8'),
-    ]),
-    getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
-        getItem('Option 9', '9'),
-        getItem('Option 10', '10'),
-        getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
-    ]),
-];
+let items = [];
 const CollapseMenu = () => {
-    const [collapsed, setCollapsed] = useState(false);
-    const toggleCollapsed = () => {
-        setCollapsed(!collapsed);
+    const state = useContext(GlobalState)
+    const [categories] = state.categoriesAPI.categories;
+    const [search, setSearch] = state.productsAPI.search;
+    const [categorySelected, setCategorySelected] =
+        state.productsAPI.categorySelected;
+    const [sort, setSort] = state.productsAPI.sort;
+
+    let ItemsCategory = []
+    const handleCategory = (value) => {
+        setCategorySelected(value);
+        setSearch("");
     };
+    const handleClickSorting = (value) => {
+        console.log(`selected ${value}`);
+        setSort(value);
+    };
+    if (categories) {
+        let none = [
+            getItem((
+                <span
+                    onClick={() => handleCategory("")}
+                    key={'none'}
+                >
+                    Bỏ chọn
+                </span>
+            ), 'none')
+        ]
+
+
+        ItemsCategory = categories.map((category) => {
+            return getItem((
+                <span
+                    onClick={() => handleCategory("category=" + category._id)}
+                    key={category._id}
+                >
+                    {category.name}
+                </span>
+            ), category._id)
+        });
+        ItemsCategory = none.concat(ItemsCategory)
+    }
+    let sorting = [
+        {
+            key: "sort=newest",
+            label: <span onClick={() => handleClickSorting('')}>Bỏ lọc</span>,
+        },
+        {
+            key: "sort=oldest",
+            label: <span onClick={() => handleClickSorting('sort=oldest')}>Cũ nhất</span>,
+        },
+        {
+            key: "sort=-sold",
+
+            label: <span onClick={() => handleClickSorting('sort=-sold')}>Bán chạy</span>,
+        },
+        {
+            key: "sort=-price",
+            label: <span onClick={() => handleClickSorting('sort=-price')}>Giá: cao - thấp</span>,
+        },
+        {
+            key: "sort=price",
+            label: <span onClick={() => handleClickSorting('sort=price')}>Giá: thấp - cao</span>,
+        },
+    ]
+    if (sorting) {
+        sorting = sorting.map((sort) => {
+            return getItem(sort.label, sort.key)
+        });
+    }
+    items = [getItem('Danh mục sản phẩm', 'category', <ShopOutlined />, ItemsCategory),
+    getItem('Bộ lọc', 'filter', <FilterOutlined />, sorting)]
+    console.log(ItemsCategory)
     return (
         <div
             style={{
-                width: 256,
+                width: 240,
+                position: 'sticky',
+                top: '80px'
             }}
         >
-            <Button
-                type="primary"
-                onClick={toggleCollapsed}
-                style={{
-                    marginBottom: 16,
-                }}
-            >
-                {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            </Button>
             <Menu
                 defaultSelectedKeys={['1']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
                 theme="dark"
-                inlineCollapsed={collapsed}
                 items={items}
             />
         </div>

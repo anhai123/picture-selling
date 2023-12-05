@@ -8,7 +8,8 @@ export const GlobalState = createContext();
 
 export const DataProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-
+  const API_URL = 'http://localhost:3000/shopping/';
+  const API_ONLY_HREF = 'shopping/';
   useEffect(() => {
     // socketio
     // const socket = io("http://localhost:9001/");
@@ -27,6 +28,8 @@ export const DataProvider = ({ children }) => {
     categoriesAPI: CategoriesAPI(),
     userAPI: UserAPI(),
     socket,
+    API_URL,
+    API_ONLY_HREF
   };
 
   return <GlobalState.Provider value={state}>{children}</GlobalState.Provider>;

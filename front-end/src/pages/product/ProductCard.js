@@ -12,12 +12,15 @@ import {
 import { DeleteOutlined } from "@ant-design/icons";
 import StarRatings from "react-star-ratings";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { GlobalState } from "../../GlobalState";
 const { Meta } = Card;
 const { Text, Paragraph } = Typography;
-const ProductCard = ({ product, isAdmin, deleteProduct, handleCheck }) => {
-  const handleClickImageEvent = () => {};
-  const handelDeleteProduct = () => {};
 
+const ProductCard = ({ product, isAdmin, deleteProduct, handleCheck }) => {
+  const handleClickImageEvent = () => { };
+  const handelDeleteProduct = () => { };
+  const state = useContext(GlobalState)
   const confirm = (e) => {
     console.log(e);
     deleteProduct(product._id);
@@ -61,8 +64,9 @@ const ProductCard = ({ product, isAdmin, deleteProduct, handleCheck }) => {
       >
         <Link
           to={
-            isAdmin ? `/edit_product/${product._id}` : `/detail/${product._id}`
+            isAdmin ? `edit_product/${product._id}` : `detail/${product._id}`
           }
+          replace={true}
         >
           <Meta
             title={product.title}
@@ -72,7 +76,7 @@ const ProductCard = ({ product, isAdmin, deleteProduct, handleCheck }) => {
                   {product.price} $
                 </Text>
                 <Text
-                  style={{ width: "190px" }}
+                  style={{ width: "120px" }}
                   ellipsis={{
                     rows: 3,
                   }}
