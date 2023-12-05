@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import userService from "../services/user.service";
 import paymentService from "../services/payment.service";
+import adminService from "../services/admin.service";
 const user = JSON.parse(localStorage.getItem("user"));
 const UserAPI = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -9,6 +10,7 @@ const UserAPI = () => {
   const [cart, setCart] = useState([]);
   const [history, setHistory] = useState([]);
   const [callback, setCallback] = useState(false);
+  const [statisticInfo, setStatisticInfo] = useState([])
 
   useEffect(() => {
     if (user) {
@@ -35,8 +37,11 @@ const UserAPI = () => {
       const getHistory = async () => {
         if (isAdmin) {
           const response = await paymentService.getPayment();
-          console.log(response)
+          const statistic = await adminService.statistic()
+          console.log('thong tin admin lay ve tu be')
+          console.log(statistic)
           setHistory(response);
+          setStatisticInfo(statistic)
         } else {
           const response = await userService.getUserHistory(user.id);
           console.log(response)
@@ -73,6 +78,7 @@ const UserAPI = () => {
     addCart: addCart,
     callback: [callback, setCallback],
     history: [history, setHistory],
+    statistic: [statisticInfo, setStatisticInfo]
   };
 };
 

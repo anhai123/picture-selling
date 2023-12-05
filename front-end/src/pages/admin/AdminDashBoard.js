@@ -7,29 +7,38 @@ import './css/dashboard.css'
 import React from 'react';
 import { Avatar, List, Space, Col, Row } from 'antd';
 import { SnippetsOutlined, WifiOutlined, AliwangwangOutlined } from "@ant-design/icons";
-const data = [
-    {
-        icon: <WifiOutlined />,
-        title: 'Doanh thu trong ngày',
-    },
-    {
-        icon: <AliwangwangOutlined />,
-        title: 'Số khách hàng mới',
-    },
-    {
-        icon: <SnippetsOutlined />,
-        title: 'Tổng số người mua',
-    },
-    {
-        icon: <SnippetsOutlined />,
-        title: 'Lượt đặt hàng mới',
-    },
-];
+import { useContext } from 'react';
+import { GlobalState } from '../../GlobalState';
+
 
 
 
 const AdminDashBoard = () => {
-
+    const state = useContext(GlobalState)
+    let [statisticInfo, setStatisticInfo] = state.userAPI.statistic
+    console.log(statisticInfo)
+    const data = [
+        {
+            icon: <WifiOutlined />,
+            title: 'Doanh thu trong ngày',
+            description: statisticInfo.dailyRevenue
+        },
+        {
+            icon: <AliwangwangOutlined />,
+            title: 'Số khách hàng mới',
+            description: statisticInfo.newUserCount
+        },
+        {
+            icon: <SnippetsOutlined />,
+            title: 'Tổng số người mua',
+            description: statisticInfo.totalUserCount
+        },
+        {
+            icon: <SnippetsOutlined />,
+            title: 'Lượt đặt hàng mới',
+            description: statisticInfo.totalPaymentCount
+        },
+    ];
     return (
         <div style={{ height: '100vh' }} className='container-padding'>
 
@@ -45,12 +54,12 @@ const AdminDashBoard = () => {
                                         backgroundColor: '#87d068',
                                     }} />}
                                     title={<a href="https://ant.design">{item.title}</a>}
-                                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                    description={item.description}
                                 />
                             </List.Item>
                         )}
                     /></Col>
-                <Col span={12}><BarChart></BarChart></Col>
+                <Col span={12}><BarChart dataBarChart={statisticInfo.paymentsTotalMonth}></BarChart></Col>
             </Row>
 
 
