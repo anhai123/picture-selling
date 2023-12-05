@@ -98,7 +98,7 @@ const ProductDetail = () => {
           >
             <p>
               <Text code strong>
-                $ {productDetail.price}
+                VND {productDetail.price}
               </Text>
             </p>
             <p>{productDetail.content}</p>
