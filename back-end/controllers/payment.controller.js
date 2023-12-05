@@ -79,7 +79,25 @@ exports.getPayments = async (req, res) => {
   res = general.setResHeader(res);
   try {
     const payments = await Payments.find();
-    return res.json(payments);
+
+    var result = [];
+    for (var i = 0; i < payments.length; i++) {
+      await Status.find(
+        {
+          _id: ObjectId(payments.at(i).status),
+        }
+      ).then(function (statusR, err) {
+        if (err) {
+          res.status(500).send({ code: 50, message: err });
+          return;
+        }
+        var obj = payments.at(i).toJSON();
+        obj.status = statusR.at(0).name;
+        result.push(obj);
+      });
+    }
+
+    return res.json(result);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
