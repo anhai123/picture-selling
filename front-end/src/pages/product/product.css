@@ -27,7 +27,7 @@
 }
 
 .postImage {
-  width: 250px !important;
+  /* width: 250px !important; */
   height: 200px;
 }
 
@@ -47,7 +47,7 @@
   height: fit-content;
   min-height: 500px;
   flex-wrap: wrap;
-  column-gap: 72px;
+  /* column-gap: 72px; */
   row-gap: 30px;
   margin: auto;
   justify-content: flex-start;
