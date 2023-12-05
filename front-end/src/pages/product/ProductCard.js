@@ -72,7 +72,7 @@ const ProductCard = ({ product, isAdmin, deleteProduct, handleCheck }) => {
             title={product.title}
             description={
               <>
-                <Text code strong>
+                <Text code strong style={{ marginRight: '8px' }}>
                   {product.price} $
                 </Text>
                 <Text

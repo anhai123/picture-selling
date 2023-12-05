@@ -23,7 +23,7 @@
   /* flex: 0 0 23%; */
   /* explanation below */
   margin-top: 3%;
-  height: 310px;
+  /* height: 310px; */
 }
 
 .postImage {
@@ -33,7 +33,7 @@
 
 .ant-card-cover {
   padding: 0px;
-  height: 180p x;
+  height: 180px;
 }
 
 .ant-card-meta-description p {
@@ -47,7 +47,8 @@
   height: fit-content;
   min-height: 500px;
   flex-wrap: wrap;
-  column-gap: 30px;
+  column-gap: 72px;
+  row-gap: 30px;
   margin: auto;
   justify-content: flex-start;
   padding: 0 80px;
