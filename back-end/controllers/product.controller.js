@@ -12,8 +12,10 @@ class APIfeatures {
     const excludedFields = ["page", "sort", "limit"];
     excludedFields.forEach((field) => delete queryObj[field]);
     let queryStr = JSON.stringify(queryObj);
-
+    //title[regex]=d%C3%B2ng
+    //{"title":{"$regex":"th"} %kkk% in sql
     queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, (match) => {
+      console.log('dong so 17: regex')
       console.log(match);
       return "$" + match;
     });
