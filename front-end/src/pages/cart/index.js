@@ -240,7 +240,7 @@ const Cart = () => {
           }}
         >
           <Text code strong style={{ fontSize: "30px" }}>
-            Total: $ {total}
+            Total: VND {total}
           </Text>
           <Button type="primary" danger onClick={handleBuyNow}>Buy now</Button>
         </div>
