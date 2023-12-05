@@ -195,7 +195,7 @@ const Cart = () => {
                     style={{ backgroundColor: 'var(--background-color-white)' }}
                     actions={[
                       <Text code strong>
-                        $ {product.price * product.quantity}
+                        VND {product.price * product.quantity}
                       </Text>,
                       <InputNumber
                         key={product._id}
