@@ -203,11 +203,8 @@ const CreateProduct = () => {
     }
   }, [params.id, products]);
   return (
-    <>
-      <Card>
-        <BackButton />
-      </Card>
-
+    <div className="container-padding">
+      <BackButton />
       <div className="description-containner">
         <Image className="image" src={srcUploadImage} />
 
@@ -224,23 +221,23 @@ const CreateProduct = () => {
           initialValues={
             product
               ? {
-                  productname: product.title,
-                  price: product.price,
-                  description: product.description,
-                  content: product.content,
-                  category: product.category,
-                  _id: product._id,
-                }
+                productname: product.title,
+                price: product.price,
+                description: product.description,
+                content: product.content,
+                category: product.category,
+                _id: product._id,
+              }
               : {
-                  productname: "sdad",
-                  price: 0,
-                  description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean cursus at massa nec euismod.",
-                  content:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nisi sed nisi sollicitudin venenatis. Aenean cursus at massa nec euismod. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-                  category: "faf",
-                  _id: "",
-                }
+                productname: "sdad",
+                price: 0,
+                description:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean cursus at massa nec euismod.",
+                content:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nisi sed nisi sollicitudin venenatis. Aenean cursus at massa nec euismod. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+                category: "faf",
+                _id: "",
+              }
           }
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -248,7 +245,7 @@ const CreateProduct = () => {
         >
           <Card>
             <Form.Item
-              label="Name"
+              label="Tên sản phẩm"
               name="productname"
               rules={[
                 {
@@ -267,7 +264,7 @@ const CreateProduct = () => {
             </Form.Item>
 
             <Form.Item
-              label="Image"
+              label="Ảnh"
               name="productImage"
               rules={[
                 {
@@ -282,11 +279,11 @@ const CreateProduct = () => {
                 customRequest={dummyRequest}
                 style={{ width: "100%" }}
               >
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                <Button icon={<UploadOutlined />}>Tải Ảnh</Button>
               </Upload>
             </Form.Item>
             <Form.Item
-              label="Description"
+              label="Mô tả sản phẩm"
               name="description"
               rules={[
                 {
@@ -298,7 +295,7 @@ const CreateProduct = () => {
               <Input.TextArea style={{ minHeight: "100px" }} />
             </Form.Item>
             <Form.Item
-              label="Content"
+              label="Điểm nổi bật"
               name="content"
               rules={[
                 {
@@ -311,7 +308,7 @@ const CreateProduct = () => {
             </Form.Item>
 
             <Form.Item
-              label="Price"
+              label="Giá bán"
               name="price"
               rules={[
                 {
@@ -324,7 +321,7 @@ const CreateProduct = () => {
             </Form.Item>
 
             <Form.Item
-              label="Category"
+              label="Thể loại"
               name="category"
               rules={[
                 {
@@ -361,7 +358,7 @@ const CreateProduct = () => {
           </Card>
         </Form>
       </div>
-    </>
+    </div>
   );
 };
 export default CreateProduct;

@@ -12,14 +12,17 @@ import {
   message,
 } from "antd";
 import authService from "../../services/auth.service";
+import { GlobalState } from "../../GlobalState";
+import { useContext } from "react";
 const Login = () => {
+  const state = useContext(GlobalState);
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
     authService.login(values.username, values.password).then(
       (response) => {
         console.log(response);
         message.success("login successfully");
-        window.location.href = "shopping/product";
+        window.location.href = `/`;
       },
       (error) => {
         const _content =

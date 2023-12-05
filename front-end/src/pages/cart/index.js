@@ -116,6 +116,7 @@ const Cart = () => {
 
   const handleSubmit = (values) => {
     values = form.validateFields();
+
     values.then((val) => {
       paymentService.createPayment(cart, val.address).then(
         (response) => {

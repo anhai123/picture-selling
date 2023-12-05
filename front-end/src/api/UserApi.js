@@ -15,7 +15,6 @@ const UserAPI = () => {
       const getUser = async () => {
         try {
           const response = await userService.getUser(user.id);
-
           setUserInfo(response);
           setIsLogged(true);
           user.roles.includes("ROLE_ADMIN")
@@ -36,10 +35,12 @@ const UserAPI = () => {
       const getHistory = async () => {
         if (isAdmin) {
           const response = await paymentService.getPayment();
+          console.log(response)
           setHistory(response);
         } else {
           const response = await userService.getUserHistory(user.id);
-          setHistory(response);
+          console.log(response)
+          setHistory(response.result);
         }
       };
       getHistory();

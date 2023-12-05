@@ -183,11 +183,11 @@ const ProductDetail = () => {
           </>
         )}
       </Card>
-      <div className="related-product-containner">
-        <Title level={3}>Sản phẩm liên quan</Title>
+      <div className="related-product-containner--header">
+        <Title level={1}>Sản phẩm liên quan</Title>
 
       </div>
-      <div className="site-card-border-less-wrapper">
+      <div className="related-product-containner--body">
         {products.map((product) =>
           product.category === productDetail.category ? (
             <ProductCard key={product._id} product={product} />

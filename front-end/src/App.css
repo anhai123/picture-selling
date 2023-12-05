@@ -43,3 +43,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf;
 }
+
+.container-padding {
+  padding: 50px;
+}

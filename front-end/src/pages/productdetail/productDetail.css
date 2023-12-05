@@ -51,8 +51,15 @@
   padding-top: 0px;
 }
 
-.related-product-containner {
-  padding: 1rem;
+.related-product-containner--header {
+  /* padding: 1rem; */
+  text-align: center;
+}
+
+.related-product-containner--body {
+  display: flex;
+  background: #ececec;
+  flex-wrap: wrap;
 }
 
 .product-description-containner {
