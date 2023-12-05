@@ -71,7 +71,7 @@ const updatePaymentStatus = (orderId, status) => {
     .put(
       `http://localhost:9001/payment`,
       {
-        orderId,
+        _id: orderId,
         status,
       },
       {
