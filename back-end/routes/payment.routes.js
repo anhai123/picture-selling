@@ -10,10 +10,18 @@ module.exports = function (app) {
   //   next();
   // });
   app.post("/payment", [authJwt.verifyToken], controller.createPayment);
+
   app.get(
     "/payment",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.getPayments
   );
+
+  app.get(
+    "/statistics",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.statistics
+  );
+
   app.put("/payment", [authJwt.verifyToken, authJwt.isAdmin], controller.updatePayment);
 };

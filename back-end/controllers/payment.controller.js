@@ -7,6 +7,7 @@ const Users = db.user;
 var ObjectId = require("mongodb").ObjectId;
 const mongoose = require("mongoose");
 const general = require("./generalController");
+const moment = require("moment");
 
 const sold = async (id, quantity, oldSold) => {
   await Products.findOneAndUpdate(
@@ -57,12 +58,15 @@ exports.createPayment = async (req, res) => {
         await newPayment.save();
 
 
+
         await Users.findOneAndUpdate(
           { _id: req.userId },
           {
             cart: []
           }
         );
+
+
         return res.json({ code: 0, message: "Payment Success!" });
       }
     );
@@ -78,6 +82,94 @@ exports.getPayments = async (req, res) => {
     return res.json(payments);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
+  }
+};
+
+exports.statistics = async (req, res) => {
+  res = general.setResHeader(res);
+  try {
+    const today = moment().startOf('day');
+
+    const payments = await Payments.find({
+      createdAt: {
+        $gte: today.toDate(),
+        $lte: moment(today).endOf('day').toDate()
+      }
+    });
+    var paymentsTotal = 0;
+    for (let i = 0; i < payments.length; i++) {
+      for (let j = 0; j < payments.at(i).cart.length; j++) {
+        paymentsTotal += payments.at(i).cart.at(j).quantity * payments.at(i).cart.at(j).price;
+      }
+    }
+    // return res.json(moment(payments.at(0).createdAt).format("YYYY/MM/DD HH:mm:ss"));
+
+    // So luong khach hang moi
+    const paymentsByUserId = await Payments.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: today.toDate(),
+            $lte: moment(today).endOf('day').toDate()
+          }
+        }
+      },
+      {
+        $group: {
+          _id: '$user_id',
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+    var totalUserCount = paymentsByUserId.length;
+    var newUserCount = totalUserCount;
+    for (let i = 0; i < paymentsByUserId.length; i++) {
+      const paymentsOld = await Payments.find({
+        user_id: paymentsByUserId.at(i)._id,
+        createdAt: {
+          $lt: today.toDate()
+        }
+      });
+      if (paymentsOld.length) {
+        newUserCount--;
+      }
+    }
+
+    // Doanh thu theo thang trong nam nay
+    var paymentsTotalMonth = [];
+    for (let i = 0; i <= 11; i++) {
+      var totalMonth = 0;
+
+      const thisMonth = moment().month(i).startOf('month');
+
+      const paymentsByMonth = await Payments.find({
+        createdAt: {
+          $gte: thisMonth.toDate(),
+          $lte: moment(thisMonth).endOf('month').toDate()
+        }
+      });
+
+      for (let j = 0; j < paymentsByMonth.length; j++) {
+        for (let k = 0; k < paymentsByMonth.at(j).cart.length; k++) {
+          totalMonth += paymentsByMonth.at(j).cart.at(k).quantity * paymentsByMonth.at(j).cart.at(k).price;
+        }
+      }
+      paymentsTotalMonth.push(totalMonth);
+    }
+
+    return res.json({
+      code: 0,
+      message: "Thành công!",
+      data: {
+        dailyRevenue: paymentsTotal,
+        newUserCount: newUserCount,
+        totalUserCount: totalUserCount,
+        totalPaymentCount: payments.length,
+        paymentsTotalMonth: paymentsTotalMonth,
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ code: 50, message: err.message });
   }
 };
 
