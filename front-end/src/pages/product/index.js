@@ -160,7 +160,7 @@ const ProductList = () => {
               ))}
             </div>
           </Content>
-          <Footer style={footerStyle}>
+          {/* <Footer style={footerStyle}>
             <div className="pagination-containner">
               <Pagination
                 defaultCurrent={1}
@@ -169,7 +169,7 @@ const ProductList = () => {
                 style={{ bottom: "0px !important" }}
                 defaultPageSize={6}
               />
-            </div> </Footer>
+            </div> </Footer> */}
         </Layout>
       </Layout>
     </div >
