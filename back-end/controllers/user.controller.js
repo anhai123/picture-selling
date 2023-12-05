@@ -44,12 +44,36 @@ exports.getUser = async (req, res) => {
   res = general.setResHeader(res);
   console.log("Id ng dung: " + req.userId);
   try {
-    const user = await Users.findById(req.userId).select("-password");
-    if (!user) {
-      return res.status(400).json({ msg: "User does not exist." });
-    }
+    const user = await Users.findById(req.userId).select("-password").populate("roles", "-__v").exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
 
-    return res.json(user);
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+      var authorities = [];
+      for (let i = 0; i < user.roles.length; i++) {
+        authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+      }
+      res.status(200).send({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        roles: authorities,
+        cart: user.cart
+
+      });
+    })
+    // if (!user) {
+    //   return res.status(400).json({ msg: "User does not exist." });
+    // }
+    // var authorities = [];
+    // for (let i = 0; i < user.roles.length; i++) {
+    //   authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+    // }
+    // return res.json({ ...user, roles: authorities });
   } catch (error) {
     return res.status(500).json({ msg: error.message });
   }

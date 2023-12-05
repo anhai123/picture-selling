@@ -34,6 +34,8 @@
 .ant-card-cover {
   padding: 0px;
   height: 180px;
+  overflow: hidden;
+  max-width: 265px;
 }
 
 .ant-card-meta-description p {

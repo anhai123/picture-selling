@@ -47,6 +47,8 @@ export const data = {
 };
 
 export default function BarChart({ option, dataBarChart }) {
+
+    console.log(dataBarChart)
     const data = {
         labels,
         datasets: [

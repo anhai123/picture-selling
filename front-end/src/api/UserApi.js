@@ -19,9 +19,18 @@ const UserAPI = () => {
           const response = await userService.getUser(user.id);
           setUserInfo(response);
           setIsLogged(true);
-          user.roles.includes("ROLE_ADMIN")
-            ? setIsAdmin(true)
-            : setIsAdmin(false);
+          if (user.roles.includes("ROLE_ADMIN")) {
+            setIsAdmin(true)
+            const response = await paymentService.getPayment();
+            const statistic = await adminService.statistic()
+            console.log('thong tin admin lay ve tu be')
+            console.log(statistic)
+            setHistory(response);
+            setStatisticInfo(statistic)
+          }
+          else {
+            setIsAdmin(false);
+          }
           setCart(response.cart);
           console.log(response);
         } catch (error) {

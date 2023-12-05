@@ -65,11 +65,12 @@ const ProductDetail = () => {
     if (params.id) {
       products.forEach((product) => {
         if (product._id === params.id) {
+          console.log('product founded')
           setProductDetail(product);
         }
       });
     }
-  }, [params.id, products]);
+  }, [params.id, products, state.productsAPI.products[products]]);
 
   useEffect(() => {
     if (socket && userInfo) {
@@ -81,119 +82,128 @@ const ProductDetail = () => {
   // if (productDetail.length === 0) {
   //   return null;
   // }
-
+  console.log(productDetail)
   return (
     <div>
-      <Card className="product-description-containner">
-        <div>
-          <BackButton />
-        </div>
-        <div className="description-containner1">
-          <Image className="image" src={productDetail.images} />
-
-          <Card
-            title={productDetail.title}
-            bordered={false}
-            style={{ width: "50%" }}
-          >
-            <p>
-              <Text code strong>
-                VND {productDetail.price}
-              </Text>
-            </p>
-            <p>{productDetail.content}</p>
-            <Text strong>Sold: {productDetail.sold}</Text>
-            <div>
-              <StarRatings
-                rating={
-                  productDetail.numReviews > 0
-                    ? productDetail.star / productDetail.numReviews
-                    : 0
-                }
-                starDimension="15px"
-                starSpacing="4px"
-                starRatedColor="rgb(230, 67, 47)"
-              />
-              <Text style={{ fontSize: "30px", paddingLeft: "1rem" }} strong>
-                {productDetail.numReviews > 0
-                  ? (productDetail.star / productDetail.numReviews).toFixed(1)
-                  : (0.01).toFixed(1)}
-                /5.0
-              </Text>
-            </div>
-            <p>
-              <Button
-                type="primary"
-                onClick={() => {
-                  addCart(productDetail);
-                }}
-              >
-                Add to cart
-              </Button>
-            </p>
-          </Card>
-        </div>
-      </Card>
-
-      <Card title={<h1>Bình luận</h1>}
-        bordered={true} className="card-comment-containner">
-        {isLogged && (
-          <CommentCreateForm
-            id={params.id}
-            callbackComment={callbackComment}
-            setCallbackComment={setCallbackComment}
-          />
-        )}
-        {comments.length === 0 ? (
-          <p
-            className="text-center text-lg"
-            style={{
-              textAlign: "center",
-              fontSize: "1.125rem",
-              lineHeight: "1.75rem",
-            }}
-          >
-            There are no reviews yet.
-          </p>
-        ) : (
+      {
+        products.length > 0 &&
+        (
           <>
-            {comments !== undefined &&
-              comments.map((comment, index) => (
-                <CommentItem key={index} comment={comment} />
-              ))}
+            <Card className="product-description-containner">
+              <div>
+                <BackButton />
+              </div>
+              <div className="description-containner1">
+                <Image className="image" src={productDetail.images} />
 
-            {resultComment < pageComment * 5 ? (
-              ""
-            ) : (
-              <div style={{ textAlign: "center" }}>
-                <span
+                <Card
+                  title={productDetail.title}
+                  bordered={false}
+                  style={{ width: "50%" }}
+                >
+                  <p>
+                    <Text code strong>
+                      VND {productDetail.price}
+                    </Text>
+                  </p>
+                  <p>{productDetail.content}</p>
+                  <Text strong>Sold: {productDetail.sold}</Text>
+                  <div>
+                    <StarRatings
+                      rating={
+                        productDetail.numReviews > 0
+                          ? productDetail.star / productDetail.numReviews
+                          : 0
+                      }
+                      starDimension="15px"
+                      starSpacing="4px"
+                      starRatedColor="rgb(230, 67, 47)"
+                    />
+                    <Text style={{ fontSize: "30px", paddingLeft: "1rem" }} strong>
+                      {productDetail.numReviews > 0
+                        ? (productDetail.star / productDetail.numReviews).toFixed(1)
+                        : (0.01).toFixed(1)}
+                      /5.0
+                    </Text>
+                  </div>
+                  <p>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        addCart(productDetail);
+                      }}
+                    >
+                      Add to cart
+                    </Button>
+                  </p>
+                </Card>
+              </div>
+            </Card>
+
+            <Card title={<h1>Bình luận</h1>}
+              bordered={true} className="card-comment-containner">
+              {isLogged && (
+                <CommentCreateForm
+                  id={params.id}
+                  callbackComment={callbackComment}
+                  setCallbackComment={setCallbackComment}
+                />
+              )}
+              {comments.length === 0 ? (
+                <p
+                  className="text-center text-lg"
                   style={{
                     textAlign: "center",
                     fontSize: "1.125rem",
                     lineHeight: "1.75rem",
                   }}
-                  onClick={() => {
-                    setPageComment((prev) => prev + 1);
-                  }}
                 >
-                  Load More
-                </span>
-              </div>
-            )}
-          </>
-        )}
-      </Card>
-      <div className="related-product-containner--header">
-        <Title level={1}>Sản phẩm liên quan</Title>
+                  There are no reviews yet.
+                </p>
+              ) : (
+                <>
+                  {comments !== undefined &&
+                    comments.map((comment, index) => (
+                      <CommentItem key={index} comment={comment} />
+                    ))}
 
-      </div>
-      <div className="related-product-containner--body">
-        {products.map((product) =>
-          product.category === productDetail.category ? (
-            <ProductCard key={product._id} product={product} />
-          ) : null
-        )}
-      </div>
+                  {resultComment < pageComment * 5 ? (
+                    ""
+                  ) : (
+                    <div style={{ textAlign: "center" }}>
+                      <span
+                        style={{
+                          textAlign: "center",
+                          fontSize: "1.125rem",
+                          lineHeight: "1.75rem",
+                        }}
+                        onClick={() => {
+                          setPageComment((prev) => prev + 1);
+                        }}
+                      >
+                        Load More
+                      </span>
+                    </div>
+                  )}
+                </>
+              )}
+            </Card>
+            <div className="related-product-containner--header">
+              <Title level={1}>Sản phẩm liên quan</Title>
+
+            </div>
+            <div className="related-product-containner--body">
+              {products.map((product) =>
+                product.category === productDetail.category ? (
+                  <ProductCard key={product._id} product={product} />
+                ) : null
+              )}
+            </div>
+          </>
+        )
+
+      }
+
     </div>
   );
 };
