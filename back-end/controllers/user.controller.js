@@ -56,6 +56,7 @@ exports.getUser = async (req, res) => {
 };
 exports.addCart = async (req, res) => {
   res = general.setResHeader(res);
+  console.log('add cart')
   try {
     const user = await Users.findById(req.userId);
     if (!user) {
@@ -116,7 +117,7 @@ exports.history = async (req, res) => {
       ).then(function (statusR, err) {
         if (err) {
           hasError = true;
-          res.status(500).send({ code:50, message: err });
+          res.status(500).send({ code: 50, message: err });
           return;
         }
         var obj = histories.at(i).toJSON();
@@ -127,10 +128,10 @@ exports.history = async (req, res) => {
     if (hasError) {
       return;
     }
-
-    return res.json(result);
+    let totalPurchase = (await Payments.find({ user_id: req.userId })).length
+    return res.json({ result, totalPurchase });
   } catch (error) {
-    return res.status(500).json({ code:50, message: error.message });
+    return res.status(500).json({ code: 50, message: error.message });
   }
 };
 
@@ -146,12 +147,12 @@ exports.historyType = async (req, res) => {
     ).then(async function (statusR, err) {
       if (err) {
         hasError = true;
-        res.status(500).send({ code:50, message: err });
+        res.status(500).send({ code: 50, message: err });
         return;
       }
       if (statusR.length == 0) {
         hasError = true;
-        res.status(404).send({ code:44, message: `Không tìm thấy trạng thái có tên '${req.query.type}'!` });
+        res.status(404).send({ code: 44, message: `Không tìm thấy trạng thái có tên '${req.query.type}'!` });
         return;
       }
 
@@ -186,6 +187,6 @@ exports.historyType = async (req, res) => {
       return res.json(result);
     });
   } catch (error) {
-    return res.status(500).json({code:50,  message: error.message });
+    return res.status(500).json({ code: 50, message: error.message });
   }
 };

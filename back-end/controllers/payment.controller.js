@@ -20,6 +20,8 @@ const sold = async (id, quantity, oldSold) => {
 
 exports.createPayment = async (req, res) => {
   res = general.setResHeader(res);
+
+
   try {
     const user = await Users.findById(req.userId).select("username email");
     if (!user) {
@@ -47,12 +49,24 @@ exports.createPayment = async (req, res) => {
           cart,
           address,
         });
+        console.log('dong 51 creat payment')
 
         cart.filter((item) => {
           return sold(item._id, item.quantity, item.sold);
         });
 
         await newPayment.save();
+
+
+
+        await Users.findOneAndUpdate(
+          { _id: req.userId },
+          {
+            cart: []
+          }
+        );
+
+
         return res.json({ code: 0, message: "Payment Success!" });
       }
     );
