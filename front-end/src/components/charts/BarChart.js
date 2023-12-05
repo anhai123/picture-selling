@@ -51,7 +51,7 @@ export default function BarChart({ option, dataBarChart }) {
         labels,
         datasets: [
             {
-                label: 'VND',
+                label: 'USD',
                 data: labels.map((val, index) => dataBarChart[index]),
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
             },

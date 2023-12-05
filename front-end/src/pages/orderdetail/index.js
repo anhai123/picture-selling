@@ -44,7 +44,7 @@ const columns = [
     key: "price",
     render: (value) => (
       <Text style={{ fontSize: '30px' }} code strong>
-        {value} $
+        {value} VND
       </Text>
     ),
   },
