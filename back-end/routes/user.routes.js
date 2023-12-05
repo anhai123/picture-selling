@@ -1,14 +1,18 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
-
+// const general = require("./generalController");
 module.exports = function (app) {
-  app.use(function (req, res, next) {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
-  });
+  // app.use(function (req, res, next) {
+  //   res.header(
+  //     "Access-Control-Allow-Headers",
+  //     "x-access-token, Origin, Content-Type, Accept"
+  //   );
+  //   res.header(
+  //     "Access-Control-Allow-Methods",
+  //     "GET, DELETE"
+  //   ); // If needed
+  //   next();
+  // });
 
   app.get("/api/shopping/all", controller.allAccess);
 

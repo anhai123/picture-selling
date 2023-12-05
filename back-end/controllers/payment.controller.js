@@ -19,10 +19,12 @@ const sold = async (id, quantity, oldSold) => {
 
 exports.createPayment = async (req, res) => {
   res = general.setResHeader(res);
+
+
   try {
     const user = await Users.findById(req.userId).select("username email");
     if (!user) {
-      return res.status(404).json({ code:44, message: "User does not exist!" });
+      return res.status(404).json({ code: 44, message: "User does not exist!" });
     }
 
     const { cart, address } = req.body;
@@ -34,10 +36,10 @@ exports.createPayment = async (req, res) => {
       },
       async (err, statusR) => {
         if (err) {
-          res.status(500).send({ code:50, message: err });
+          res.status(500).send({ code: 50, message: err });
           return;
         }
-        
+
         var newPayment = new Payments({
           user_id: _id,
           name: username,
@@ -46,17 +48,26 @@ exports.createPayment = async (req, res) => {
           cart,
           address,
         });
+        console.log('dong 51 creat payment')
 
         cart.filter((item) => {
           return sold(item._id, item.quantity, item.sold);
         });
 
         await newPayment.save();
-        return res.json({ code:0, message: "Payment Success!" });
+
+
+        await Users.findOneAndUpdate(
+          { _id: req.userId },
+          {
+            cart: []
+          }
+        );
+        return res.json({ code: 0, message: "Payment Success!" });
       }
     );
   } catch (err) {
-    return res.status(500).json({ code:50, message: err.message });
+    return res.status(500).json({ code: 50, message: err.message });
   }
 };
 
@@ -81,7 +92,7 @@ exports.updatePayment = async (req, res) => {
       },
       async (err, statusR) => {
         if (err) {
-          res.status(500).send({ code:50, message: err });
+          res.status(500).send({ code: 50, message: err });
           return;
         }
 
@@ -92,14 +103,14 @@ exports.updatePayment = async (req, res) => {
           }
         ).then(function (paymentsR, err) {
           if (err) {
-            res.status(500).send({ code:50, message: err });
+            res.status(500).send({ code: 50, message: err });
             return;
           }
-          return res.json({ code:0, message: "Updated success!" });
+          return res.json({ code: 0, message: "Updated success!" });
         });
       }
     );
   } catch (error) {
-    return res.status(500).json({ code:50, message: error.message });
+    return res.status(500).json({ code: 50, message: error.message });
   }
 };
