@@ -9,8 +9,7 @@ export default function authHeader() {
     };
   } else {
     return {
-
       "Access-Control-Allow-Origin": "https://picture-selling.vercel.app"
-    };;
+    };
   }
 }
