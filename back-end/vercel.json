@@ -20,10 +20,6 @@
       "dest": "/"
     },
     {
-      "src": "/statistics/(.*)",
-      "dest": "/"
-    },
-    {
       "src": "/api/comments/(.*)",
       "dest": "/"
     },
@@ -37,6 +33,10 @@
     },
     {
       "src": "/api/shopping/user/(.*)",
+      "dest": "/"
+    },
+    {
+      "src": "/statistics/(.*)",
       "dest": "/"
     }
   ]
