@@ -1,5 +1,5 @@
 exports.setResHeader = (res) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://picture-selling-ychv-r7wflulb6-anhai123.vercel.app");
+  res.setHeader("Access-Control-Allow-Origin", "https://picture-selling-ychv-oa8dwhtm2-anhai123.vercel.app/shopping");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
