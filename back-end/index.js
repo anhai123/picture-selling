@@ -23,11 +23,12 @@ var corsOptions = {
   // credentials: true, //access-control-allow-credentials:true
   // optionSuccessStatus: 200,
   // methods: ['AAA'],
+  allowedHeaders: ['X-Requested-With', 'Content-Type'],
   methods: "GET, POST, OPTIONS, PUT, PATCH, DELETE",
   origin: "https://picture-selling-ychv.vercel.app/",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
-  allowedHeaders: ['X-Requested-With', 'Content-Type']
+
 };
 app.use(cors(corsOptions));
 // app.use(function (req, res, next) {
