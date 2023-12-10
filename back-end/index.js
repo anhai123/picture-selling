@@ -14,7 +14,7 @@ const { Server } = require("socket.io");
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: ["https://picture-selling-ychv-oa8dwhtm2-anhai123.vercel.app/shopping"],
+    origin: ["https://picture-selling-ychv-anhai123.vercel.app/shopping/shopping"],
     methods: ["GET", "POST"],
     // allowedHeaders: ["my-custom-header"],
   },
@@ -24,7 +24,7 @@ var corsOptions = {
   // optionSuccessStatus: 200,
   // methods: ['AAA'],
   methods: "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-  origin: "https://picture-selling-ychv-oa8dwhtm2-anhai123.vercel.app/shopping",
+  origin: "https://picture-selling-ychv-anhai123.vercel.app/shopping/shopping",
   credentials: true, //access-control-allow-credentials:true
 };
 app.use(cors(corsOptions));
