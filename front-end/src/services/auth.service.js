@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://localhost:9001/shopping/auth/";
+const API_URL = "https://picture-selling-4lhwzky02-anhai123.vercel.app/shopping/auth/";
 const register = (username, email, password) => {
   return axios.post(API_URL + "signup", {
     username,
