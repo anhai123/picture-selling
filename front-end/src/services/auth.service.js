@@ -5,13 +5,18 @@ const register = (username, email, password) => {
     username,
     email,
     password,
-  });
+  },
+    {
+      headers: authHeader(),
+    });
 };
 const login = (username, password) => {
   return axios
     .post(API_URL + "signin", {
       username,
       password,
+    }, {
+      headers: authHeader(),
     })
     .then((response) => {
       if (response.data.accessToken) {
