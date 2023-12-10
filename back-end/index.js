@@ -24,7 +24,7 @@ var corsOptions = {
   // optionSuccessStatus: 200,
   // methods: ['AAA'],
   methods: "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-  origin: "https://picture-selling-ychv-r7wflulb6-anhai123.vercel.app/",
+  origin: "https://picture-selling-ychv-r7wflulb6-anhai123.vercel.app",
   credentials: true, //access-control-allow-credentials:true
 };
 app.use(cors(corsOptions));
