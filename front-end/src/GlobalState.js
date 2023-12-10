@@ -12,13 +12,13 @@ export const DataProvider = ({ children }) => {
   const API_ONLY_HREF = 'shopping/';
   useEffect(() => {
     // socketio
-    // const socket = io("https://picture-selling-4lhwzky02-anhai123.vercel.app/");
+    // const socket = io("https://picture-selling.vercel.app/");
     var connectionOptions = {
       extraHeaders: {
         "Access-Control-Allow-Origin": "*",
       },
     };
-    const socket = io("https://picture-selling-4lhwzky02-anhai123.vercel.app/", connectionOptions);
+    const socket = io("https://picture-selling.vercel.app/", connectionOptions);
     setSocket(socket);
     return () => socket.close();
   }, []);

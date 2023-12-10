@@ -36,7 +36,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const getComments = async () => {
       const response = await axios.get(
-        `https://picture-selling-4lhwzky02-anhai123.vercel.app/api/comments/${params.id}?limit=${pageComment * 5
+        `https://picture-selling.vercel.app/api/comments/${params.id}?limit=${pageComment * 5
         }`
       );
       setComments(response.data.comments);

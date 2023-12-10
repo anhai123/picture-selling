@@ -1,6 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-const API_URL = "https://picture-selling-4lhwzky02-anhai123.vercel.app/categories/";
+const API_URL = "https://picture-selling.vercel.app/categories/";
 const createCategories = (name) => {
   return axios
     .post(
