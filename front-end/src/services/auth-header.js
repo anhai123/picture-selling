@@ -5,7 +5,7 @@ export default function authHeader() {
     // for Node.js Express back-end
     return {
       "x-access-token": user.accessToken,
-      "Access-Control-Allow-Origin": "*"
+      "Access-Control-Allow-Origin": "https://picture-selling.vercel.app"
     };
   } else {
     return {};
