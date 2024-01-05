@@ -15,7 +15,7 @@ const { Server } = require("socket.io");
 const io = require("socket.io")(server, {
   cors: {
     origin: ["http://localhost:3000"],
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PATCH"],
     // allowedHeaders: ["my-custom-header"],
   },
 });

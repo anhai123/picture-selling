@@ -41,5 +41,5 @@ module.exports = function (app) {
     upload.none(),
     controller.updateProduct
   );
-  app.patch("/products/:id", [authJwt.verifyToken], controller.reviews);
+  app.put("/productss/:id", [authJwt.verifyToken], controller.reviews);
 };
