@@ -137,57 +137,65 @@ const ProductDetail = () => {
                     </Button>
                   </p>
                 </Card>
-              </div>
-            </Card>
+                <Card
+                  bordered={true} className="card-comment-containner">
 
-            <Card title={<h1>Bình luận</h1>}
-              bordered={true} className="card-comment-containner">
-              {isLogged && (
-                <CommentCreateForm
-                  id={params.id}
-                  callbackComment={callbackComment}
-                  setCallbackComment={setCallbackComment}
-                />
-              )}
-              {comments.length === 0 ? (
-                <p
-                  className="text-center text-lg"
-                  style={{
-                    textAlign: "center",
-                    fontSize: "1.125rem",
-                    lineHeight: "1.75rem",
-                  }}
-                >
-                  There are no reviews yet.
-                </p>
-              ) : (
-                <>
-                  {comments !== undefined &&
-                    comments.map((comment, index) => (
-                      <CommentItem key={index} comment={comment} />
-                    ))}
-
-                  {resultComment < pageComment * 5 ? (
-                    ""
+                  {comments.length === 0 ? (
+                    <p
+                      className="text-center text-lg"
+                      style={{
+                        textAlign: "center",
+                        fontSize: "1.125rem",
+                        lineHeight: "1.75rem",
+                      }}
+                    >
+                      There are no reviews yet.
+                    </p>
                   ) : (
-                    <div style={{ textAlign: "center" }}>
-                      <span
-                        style={{
-                          textAlign: "center",
-                          fontSize: "1.125rem",
-                          lineHeight: "1.75rem",
-                        }}
-                        onClick={() => {
-                          setPageComment((prev) => prev + 1);
-                        }}
-                      >
-                        Load More
-                      </span>
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '200px',
+                      overflow: 'scroll',
+
+                      padding: '20px'
+                    }}>
+                      {comments !== undefined &&
+                        comments.map((comment, index) => (
+                          <CommentItem key={index} comment={comment} />
+                        ))}
+
+                      {resultComment < pageComment * 5 ? (
+                        ""
+                      ) : (
+                        <div style={{ textAlign: "center" }}>
+                          <span
+                            style={{
+                              textAlign: "center",
+                              fontSize: "1.125rem",
+                              lineHeight: "1.75rem",
+                            }}
+                            onClick={() => {
+                              setPageComment((prev) => prev + 1);
+                            }}
+                          >
+                            Load More
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )}
-                </>
-              )}
+                </Card>
+              </div>
             </Card>
+            {isLogged && (
+              <CommentCreateForm
+                id={params.id}
+                callbackComment={callbackComment}
+                setCallbackComment={setCallbackComment}
+              />
+            )}
+
             <div className="related-product-containner--header">
               <Title level={1}>Sản phẩm liên quan</Title>
 

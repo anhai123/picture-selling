@@ -42,8 +42,8 @@ const putProduct = (form, id) => {
 
 const patchReviewsProduct = (id, star) => {
   return axios
-    .patch(
-      API_URL + `/${id}`,
+    .put(
+      "http://localhost:9001/productss" + `/${id}`,
       {
         star,
       },
