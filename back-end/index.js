@@ -14,7 +14,7 @@ const { Server } = require("socket.io");
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: ["https://picture-selling-ychv.vercel.app"],
     methods: ["GET", "POST"],
     // allowedHeaders: ["my-custom-header"],
   },
@@ -24,6 +24,8 @@ var corsOptions = {
   // optionSuccessStatus: 200,
   // methods: ['AAA'],
   methods: "GET, POST, OPTIONS, PUT, PATCH, DELETE",
+  origin: "https://picture-selling-ychv.vercel.app",
+  credentials: true, //access-control-allow-credentials:true
 };
 app.use(cors(corsOptions));
 // app.use(function (req, res, next) {

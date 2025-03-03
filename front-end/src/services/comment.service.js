@@ -1,6 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-const API_URL = "http://localhost:9001/comment";
+const API_URL = "https://picture-selling.vercel.app/comment";
 
 const getComment = (productId) => {
   return axios.get(API_URL + `/${productId}`).then((response) => {

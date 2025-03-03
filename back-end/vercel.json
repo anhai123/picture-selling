@@ -11,7 +11,6 @@
       "src": "/(.*)",
       "dest": "/"
     },
-
     {
       "src": "/shopping/auth/(.*)",
       "dest": "/"
@@ -20,31 +19,25 @@
       "src": "/categories/(.*)",
       "dest": "/"
     },
-
     {
       "src": "/api/comments/(.*)",
       "dest": "/"
-    }
-    ,
-
+    },
     {
       "src": "/payment/(.*)",
       "dest": "/"
     },
-
     {
       "src": "/products/(.*)",
       "dest": "/"
-    }
-    ,
-
+    },
     {
       "src": "/api/shopping/user/(.*)",
       "dest": "/"
+    },
+    {
+      "src": "/statistics/(.*)",
+      "dest": "/"
     }
-
-   
-    
   ]
-  
 }

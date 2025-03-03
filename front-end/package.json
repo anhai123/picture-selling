@@ -53,5 +53,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:9001/"
+  "proxy": "https://picture-selling.vercel.app/"
 }
